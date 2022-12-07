@@ -2,7 +2,7 @@ import 'package:delivery_app_example/user/view/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(_App());
+  runApp(const _App());
 }
 
 class _App extends StatelessWidget {
@@ -15,7 +15,7 @@ class _App extends StatelessWidget {
         fontFamily: 'NotoSans'
       ),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen()
+      home: const LoginScreen()
     );
   }
 }
