@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:delivery_app_example/common/const/colors.dart';
+import 'package:delivery_app_example/common/const/data.dart';
 import 'package:delivery_app_example/common/view/root_tab.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -72,10 +73,16 @@ class _LoginScreenState extends State<LoginScreen> {
                           options: Options(
                               headers: {'authorization': 'Basic $token'}));
 
+                      final refreshToken = resp.data['refreshToken'];
+                      final accessToken = resp.data['accessToken'];
+
+                      storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                      storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+
                       Navigator.of(context)
                           .push(MaterialPageRoute(builder: (_) => RootTab()));
                     },
-                    style: ElevatedButton.styleFrom(primary: PRIMARY_COLOR),
+                    style: ElevatedButton.styleFrom(backgroundColor: PRIMARY_COLOR),
                     child: const Text(
                       '로그인',
                     )),
@@ -89,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             'authorization': 'Bearer $refreshToken'
                           }));
                     },
-                    style: TextButton.styleFrom(primary: Colors.black),
+                    style: TextButton.styleFrom(foregroundColor: Colors.black),
                     child: const Text('회원가입'))
               ],
             ),
