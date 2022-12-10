@@ -21,12 +21,12 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     const baseBorder = OutlineInputBorder(
         borderSide: BorderSide(
-      color: INPUT_BORDER_COLOR,
+      color: inputBorderColor,
       width: 1,
     ));
 
     return TextFormField(
-      cursorColor: PRIMARY_COLOR,
+      cursorColor: primaryColor,
       obscureText: obscureText,
       autofocus: autofocus,
       onChanged: onChanged,
@@ -34,14 +34,14 @@ class CustomTextFormField extends StatelessWidget {
           contentPadding: const EdgeInsets.all(20),
           hintText: hintText,
           errorText: errorText,
-          hintStyle: const TextStyle(color: BODY_TEXT_COLOR, fontSize: 14),
-          fillColor: INPUT_BG_COLOR,
+          hintStyle: const TextStyle(color: bodyTextColor, fontSize: 14),
+          fillColor: inputBGColor,
           filled: true,
           border: baseBorder,
           enabledBorder: baseBorder,
           focusedBorder: baseBorder.copyWith(
               borderSide:
-                  baseBorder.borderSide.copyWith(color: PRIMARY_COLOR))),
+                  baseBorder.borderSide.copyWith(color: primaryColor))),
     );
   }
 }

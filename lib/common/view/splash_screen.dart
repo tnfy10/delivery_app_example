@@ -25,8 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void checkToken() async {
-    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    final refreshToken = await storage.read(key: refreshTokenKey);
+    final accessToken = await storage.read(key: accessTokenKey);
 
     if (refreshToken == null || accessToken == null) {
       Navigator.of(context).pushAndRemoveUntil(
@@ -41,7 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-        backgroundColor: PRIMARY_COLOR,
+        backgroundColor: primaryColor,
         child: SizedBox(
           width: MediaQuery.of(context).size.width,
           child: Column(

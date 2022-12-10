@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:ui';
 
 import 'package:delivery_app_example/common/const/colors.dart';
 import 'package:delivery_app_example/common/const/data.dart';
@@ -76,13 +75,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       final refreshToken = resp.data['refreshToken'];
                       final accessToken = resp.data['accessToken'];
 
-                      storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
-                      storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+                      storage.write(key: refreshTokenKey, value: refreshToken);
+                      storage.write(key: accessTokenKey, value: accessToken);
 
                       Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (_) => RootTab()));
+                          .push(MaterialPageRoute(builder: (_) => const RootTab()));
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: PRIMARY_COLOR),
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                     child: const Text(
                       '로그인',
                     )),
@@ -127,7 +126,7 @@ class _SubTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Text(
       '이메일과 비밀번호를 입력해서 로그인 해주세요!\n오늘도 성공적인 주문이 되길 :)',
-      style: TextStyle(fontSize: 16, color: BODY_TEXT_COLOR),
+      style: TextStyle(fontSize: 16, color: bodyTextColor),
     );
   }
 }
