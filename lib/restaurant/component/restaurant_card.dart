@@ -11,6 +11,8 @@ class RestaurantCard extends StatelessWidget {
   final int deliveryTime;
   final int deliveryFee;
   final double ratings;
+  final bool isDetail;
+  final String? detail;
 
   const RestaurantCard(
       {Key? key,
@@ -20,10 +22,13 @@ class RestaurantCard extends StatelessWidget {
       required this.ratingsCount,
       required this.deliveryTime,
       required this.deliveryFee,
-      required this.ratings})
+      required this.ratings,
+      this.isDetail = false,
+      this.detail})
       : super(key: key);
 
-  factory RestaurantCard.fromModel({required RestaurantModel model}) {
+  factory RestaurantCard.fromModel(
+      {required RestaurantModel model, bool isDetail = false}) {
     return RestaurantCard(
         image: Image.network(model.thumbUrl, fit: BoxFit.cover),
         name: model.name,
@@ -31,46 +36,58 @@ class RestaurantCard extends StatelessWidget {
         ratingsCount: model.ratingsCount,
         deliveryTime: model.deliveryTime,
         deliveryFee: model.deliveryFee,
-        ratings: model.ratings);
+        ratings: model.ratings,
+        isDetail: isDetail);
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: image,
-        ),
+        if (isDetail) image,
+        if (!isDetail)
+          ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: image,
+          ),
         const SizedBox(height: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              name,
-              style: const TextStyle(fontSize: 20),
-            ),
-            const SizedBox(height: 8),
-            Text(
-              tags.join(' · '),
-              style: const TextStyle(color: bodyTextColor, fontSize: 14),
-            ),
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _IconText(icon: Icons.star, label: ratings.toString()),
-                renderDot(),
-                _IconText(icon: Icons.receipt, label: ratingsCount.toString()),
-                renderDot(),
-                _IconText(
-                    icon: Icons.timelapse_outlined, label: '$deliveryTime 분'),
-                renderDot(),
-                _IconText(
-                    icon: Icons.monetization_on,
-                    label: '${deliveryFee == 0 ? '무료' : deliveryFee}'),
-              ],
-            )
-          ],
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: isDetail ? 16 : 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                name,
+                style: const TextStyle(fontSize: 20),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                tags.join(' · '),
+                style: const TextStyle(color: bodyTextColor, fontSize: 14),
+              ),
+              const SizedBox(height: 8),
+              Row(
+                children: [
+                  _IconText(icon: Icons.star, label: ratings.toString()),
+                  renderDot(),
+                  _IconText(
+                      icon: Icons.receipt, label: ratingsCount.toString()),
+                  renderDot(),
+                  _IconText(
+                      icon: Icons.timelapse_outlined, label: '$deliveryTime 분'),
+                  renderDot(),
+                  _IconText(
+                      icon: Icons.monetization_on,
+                      label: '${deliveryFee == 0 ? '무료' : deliveryFee}'),
+                ],
+              ),
+              if (detail != null && isDetail)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  child: Text(detail!),
+                ),
+            ],
+          ),
         ),
       ],
     );
