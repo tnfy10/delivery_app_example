@@ -34,6 +34,13 @@ class CustomInterceptor extends Interceptor {
   }
 
   @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    print('[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+
+    return super.onResponse(response, handler);
+  }
+
+  @override
   void onError(DioError err, ErrorInterceptorHandler handler) async {
     print('[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}');
 
