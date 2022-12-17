@@ -2,7 +2,6 @@
     package="xyz.myeoru.delivery_app_example">
    <application
         android:label="delivery_app_example"
-        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
