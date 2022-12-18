@@ -1,3 +1,4 @@
+import 'package:delivery_app_example/common/model/cursor_pagination_model.dart';
 import 'package:delivery_app_example/restaurant/component/restaurant_card.dart';
 import 'package:delivery_app_example/restaurant/provider/restaurant_provider.dart';
 import 'package:delivery_app_example/restaurant/view/restaurant_detail_screen.dart';
@@ -11,15 +12,17 @@ class RestaurantScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final data = ref.watch(restaurantProvider);
 
-    if (data.isEmpty) {
+    if (data is CursorPaginationLoading) {
       return const Center(child: CircularProgressIndicator());
     }
+
+    final cp = data as CursorPagination;
 
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: ListView.separated(
             itemBuilder: (_, index) {
-              final pItem = data[index];
+              final pItem = cp.data[index];
 
               return GestureDetector(
                   onTap: () {
@@ -32,6 +35,6 @@ class RestaurantScreen extends ConsumerWidget {
             separatorBuilder: (_, index) {
               return const SizedBox(height: 16);
             },
-            itemCount: data.length));
+            itemCount: cp.data.length));
   }
 }
