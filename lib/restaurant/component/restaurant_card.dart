@@ -13,25 +13,27 @@ class RestaurantCard extends StatelessWidget {
   final int deliveryFee;
   final double ratings;
   final bool isDetail;
+  final String? heroKey;
   final String? detail;
 
-  const RestaurantCard(
-      {Key? key,
-      required this.image,
-      required this.name,
-      required this.tags,
-      required this.ratingsCount,
-      required this.deliveryTime,
-      required this.deliveryFee,
-      required this.ratings,
-      this.isDetail = false,
-      this.detail})
-      : super(key: key);
+  const RestaurantCard({
+    Key? key,
+    required this.image,
+    required this.name,
+    required this.tags,
+    required this.ratingsCount,
+    required this.deliveryTime,
+    required this.deliveryFee,
+    required this.ratings,
+    this.isDetail = false,
+    this.detail,
+    this.heroKey,
+  }) : super(key: key);
 
-  factory RestaurantCard.fromModel(
-      {required RestaurantModel model, bool isDetail = false}) {
+  factory RestaurantCard.fromModel({required RestaurantModel model, bool isDetail = false}) {
     return RestaurantCard(
         image: Image.network(model.thumbUrl, fit: BoxFit.cover),
+        heroKey: model.id,
         name: model.name,
         tags: model.tags,
         ratingsCount: model.ratingsCount,
@@ -46,12 +48,18 @@ class RestaurantCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (isDetail) image,
-        if (!isDetail)
-          ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: image,
-          ),
+        heroKey != null
+            ? Hero(
+                tag: ObjectKey(heroKey),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(isDetail ? 0 : 12),
+                  child: image,
+                ),
+              )
+            : ClipRRect(
+                borderRadius: BorderRadius.circular(isDetail ? 0 : 12),
+                child: image,
+              ),
         const SizedBox(height: 16),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: isDetail ? 16 : 0),
@@ -72,11 +80,9 @@ class RestaurantCard extends StatelessWidget {
                 children: [
                   _IconText(icon: Icons.star, label: ratings.toString()),
                   renderDot(),
-                  _IconText(
-                      icon: Icons.receipt, label: ratingsCount.toString()),
+                  _IconText(icon: Icons.receipt, label: ratingsCount.toString()),
                   renderDot(),
-                  _IconText(
-                      icon: Icons.timelapse_outlined, label: '$deliveryTime 분'),
+                  _IconText(icon: Icons.timelapse_outlined, label: '$deliveryTime 분'),
                   renderDot(),
                   _IconText(
                       icon: Icons.monetization_on,
@@ -110,8 +116,7 @@ class _IconText extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const _IconText({Key? key, required this.icon, required this.label})
-      : super(key: key);
+  const _IconText({Key? key, required this.icon, required this.label}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
