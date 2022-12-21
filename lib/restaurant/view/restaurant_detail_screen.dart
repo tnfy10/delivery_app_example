@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skeletons/skeletons.dart';
 
+import '../../rating/component/rating_card.dart';
 import '../model/restaurant_model.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
@@ -44,7 +45,14 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
             _renderTop(model: state),
             if (state is! RestaurantDetailModel) renderLoading(),
             if (state is RestaurantDetailModel) _renderLabel(),
-            if (state is RestaurantDetailModel) _renderProducts(products: state.products)
+            if (state is RestaurantDetailModel) _renderProducts(products: state.products),
+            const SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverToBoxAdapter(
+                child: RatingCard(
+                    avatarImage: AssetImage('asset/img/logo_codefactory.png'), images: [], rating: 5, email: 'jc@codefactory.ai', content: '맛있습니다.'),
+              ),
+            )
           ],
         ));
   }
