@@ -50,7 +50,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
               padding: EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverToBoxAdapter(
                 child: RatingCard(
-                    avatarImage: AssetImage('asset/img/logo_codefactory.png'), images: [], rating: 5, email: 'jc@codefactory.ai', content: '맛있습니다.'),
+                    avatarImage: AssetImage('asset/img/logo/codefactory_logo.png'), images: [], rating: 5, email: 'jc@codefactory.ai', content: '맛있습니다.'),
               ),
             )
           ],

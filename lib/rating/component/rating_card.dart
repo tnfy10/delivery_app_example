@@ -1,5 +1,6 @@
 import 'package:delivery_app_example/common/const/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
 
 class RatingCard extends StatelessWidget {
   // NetworkImage
@@ -42,7 +43,12 @@ class RatingCard extends StatelessWidget {
         _Body(
           content: content,
         ),
-        _Images(),
+        if (images.isNotEmpty)
+          SizedBox(
+            child: _Images(
+              images: images,
+            ),
+          ),
       ],
     );
   }
@@ -105,10 +111,23 @@ class _Body extends StatelessWidget {
 }
 
 class _Images extends StatelessWidget {
-  const _Images({Key? key}) : super(key: key);
+  final List<Image> images;
+
+  const _Images({Key? key, required this.images}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return ListView(
+      scrollDirection: Axis.horizontal,
+      children: images
+          .mapIndexed((index, e) => Padding(
+                padding: EdgeInsets.only(right: index == images.length - 1 ? 0 : 16),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8),
+                  child: e,
+                ),
+              ))
+          .toList(),
+    );
   }
 }
