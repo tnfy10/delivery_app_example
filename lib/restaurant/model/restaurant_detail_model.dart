@@ -1,3 +1,4 @@
+import 'package:delivery_app_example/common/model/model_with_id.dart';
 import 'package:delivery_app_example/restaurant/model/restaurant_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -28,7 +29,8 @@ class RestaurantDetailModel extends RestaurantModel {
 }
 
 @JsonSerializable()
-class RestaurantProductModel {
+class RestaurantProductModel implements IModelWithId {
+  @override
   final String id;
   final String name;
   @JsonKey(fromJson: DataUtils.pathToUrl)
