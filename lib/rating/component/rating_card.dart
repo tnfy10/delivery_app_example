@@ -1,4 +1,5 @@
 import 'package:delivery_app_example/common/const/colors.dart';
+import 'package:delivery_app_example/rating/model/rating_model.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
@@ -30,6 +31,19 @@ class RatingCard extends StatelessWidget {
       required this.content})
       : super(key: key);
 
+  factory RatingCard.fromModel({
+    required RatingModel model,
+  }) {
+    return RatingCard(
+        avatarImage: NetworkImage(
+          model.user.imageUrl,
+        ),
+        images: model.imgUrls.map((e) => Image.network(e)).toList(),
+        rating: model.rating,
+        email: model.user.username,
+        content: model.content);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,6 +59,7 @@ class RatingCard extends StatelessWidget {
         ),
         if (images.isNotEmpty)
           SizedBox(
+            height: 100,
             child: _Images(
               images: images,
             ),
@@ -103,7 +118,10 @@ class _Body extends StatelessWidget {
         Flexible(
             child: Text(
           content,
-          style: const TextStyle(color: bodyTextColor, fontSize: 14),
+          style: const TextStyle(
+            color: bodyTextColor,
+            fontSize: 14,
+          ),
         )),
       ],
     );
