@@ -1,21 +1,21 @@
+import 'package:delivery_app_example/common/component/pagination_list_view.dart';
 import 'package:delivery_app_example/product/provider/product_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProductScreen extends ConsumerStatefulWidget {
-  const ProductScreen({Key? key}) : super(key: key);
+import '../component/product_card.dart';
+import '../model/product_model.dart';
 
-  @override
-  ConsumerState<ProductScreen> createState() => _ProductTabState();
-}
+class ProductScreen extends StatelessWidget {
+  const ProductScreen({super.key});
 
-class _ProductTabState extends ConsumerState<ProductScreen> {
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(productProvider);
-
-    return Center(
-      child: Text('음식'),
-    );
+    return PaginationListView<ProductModel>(
+        provider: productProvider,
+        itemBuilder: <ProductModel>(_, index, model) {
+          return ProductCard.fromProductModel(
+            model: model,
+          );
+        });
   }
 }
