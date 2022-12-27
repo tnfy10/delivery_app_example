@@ -1,5 +1,6 @@
 import 'package:delivery_app_example/common/component/pagination_list_view.dart';
 import 'package:delivery_app_example/product/provider/product_provider.dart';
+import 'package:delivery_app_example/restaurant/view/restaurant_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../component/product_card.dart';
@@ -13,8 +14,18 @@ class ProductScreen extends StatelessWidget {
     return PaginationListView<ProductModel>(
         provider: productProvider,
         itemBuilder: <ProductModel>(_, index, model) {
-          return ProductCard.fromProductModel(
-            model: model,
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => RestaurantDetailScreen(id: model.restaurant.id),
+                ),
+              );
+            },
+            child: ProductCard.fromProductModel(
+              model: model,
+            ),
           );
         });
   }
