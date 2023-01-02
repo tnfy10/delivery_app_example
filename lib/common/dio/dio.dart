@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:delivery_app_example/common/const/data.dart';
 import 'package:delivery_app_example/common/secure_storage/secure_storage.dart';
+import 'package:delivery_app_example/user/provider/auth_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -12,7 +13,10 @@ final dioProvider = Provider<Dio>((ref) {
   final storage = ref.watch(secureStorageProvider);
 
   dio.interceptors.add(
-    CustomInterceptor(storage: storage),
+    CustomInterceptor(
+      storage: storage,
+      ref: ref,
+    ),
   );
 
   return dio;
@@ -20,12 +24,15 @@ final dioProvider = Provider<Dio>((ref) {
 
 class CustomInterceptor extends Interceptor {
   final FlutterSecureStorage storage;
+  final Ref ref;
 
-  CustomInterceptor({required this.storage});
+  CustomInterceptor({
+    required this.storage,
+    required this.ref,
+  });
 
   @override
-  void onRequest(
-      RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     print('[REQ] [${options.method}] ${options.uri}');
 
     if (options.headers['accessToken'] == 'true') {
@@ -49,8 +56,7 @@ class CustomInterceptor extends Interceptor {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print(
-        '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+    print('[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
 
     return super.onResponse(response, handler);
   }
@@ -72,22 +78,38 @@ class CustomInterceptor extends Interceptor {
       final dio = Dio();
 
       try {
-        final resp = await dio.post('http://$ip/auth/token',
-            options:
-                Options(headers: {'authorization': 'Bearer $refreshToken'}));
+        final resp = await dio.post(
+          'http://$ip/auth/token',
+          options: Options(
+            headers: {
+              'authorization': 'Bearer $refreshToken',
+            },
+          ),
+        );
 
         final accessToken = resp.data['accessToken'];
 
         final options = err.requestOptions;
 
+        // 토큰 변경하기
         options.headers.addAll({'authorization': 'Bearer $accessToken'});
 
         await storage.write(key: accessTokenKey, value: accessToken);
 
+        // 요청 재전송
         final response = await dio.fetch(options);
 
         return handler.resolve(response);
       } on DioError catch (e) {
+        // circular dependency error
+        // A, B
+        // A -> B의 친구
+        // B -> A의 친구
+        // A는 B의 친구구나
+        // A -> B -> A -> B -> A -> B
+        // userMeProvider -> dio -> userMeProvider -> dio
+        ref.read(authProvider.notifier).logout();
+
         return handler.reject(e);
       }
     }
