@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:delivery_app_example/common/const/colors.dart';
-import 'package:delivery_app_example/common/const/data.dart';
-import 'package:delivery_app_example/common/secure_storage/secure_storage.dart';
-import 'package:delivery_app_example/common/view/root_tab.dart';
-import 'package:dio/dio.dart';
+import 'package:delivery_app_example/user/model/user_model.dart';
+import 'package:delivery_app_example/user/provider/user_me_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,7 +22,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final dio = Dio();
+    final state = ref.watch(userMeProvider);
 
     return DefaultLayout(
       child: SafeArea(
@@ -61,28 +57,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                    onPressed: () async {
-                      final rawString = '$username:$password';
-                      final stringToBase64 = utf8.fuse(base64);
-                      final token = stringToBase64.encode(rawString);
-
-                      final resp = await dio.post('http://$ip/auth/login',
-                          options: Options(
-                              headers: {'authorization': 'Basic $token'}));
-
-                      final refreshToken = resp.data['refreshToken'];
-                      final accessToken = resp.data['accessToken'];
-
-                      final storage = ref.read(secureStorageProvider);
-
-                      storage.write(key: refreshTokenKey, value: refreshToken);
-                      storage.write(key: accessTokenKey, value: accessToken);
-
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (_) => const RootTab()));
-                    },
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: primaryColor),
+                    onPressed: state is UserModelLoading
+                        ? null
+                        : () {
+                            ref.read(userMeProvider.notifier).login(
+                                  username: username,
+                                  password: password,
+                                );
+                          },
+                    style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
                     child: const Text(
                       '로그인',
                     )),
@@ -106,8 +89,7 @@ class _Title extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Text(
       '환영합니다!',
-      style: TextStyle(
-          fontSize: 34, fontWeight: FontWeight.w500, color: Colors.black),
+      style: TextStyle(fontSize: 34, fontWeight: FontWeight.w500, color: Colors.black),
     );
   }
 }
