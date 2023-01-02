@@ -1,10 +1,23 @@
 import 'package:delivery_app_example/common/const/data.dart';
+import 'package:delivery_app_example/common/secure_storage/secure_storage.dart';
 import 'package:delivery_app_example/user/repository/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../model/user_model.dart';
 import '../repository/user_me_repository.dart';
+
+final userMeProvider = StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
+  final authRepository = ref.watch(authRepositoryProvider);
+  final userMeRepository = ref.watch(userMeRepositoryProvider);
+  final storage = ref.watch(secureStorageProvider);
+
+  return UserMeStateNotifier(
+    authRepository: authRepository,
+    repository: userMeRepository,
+    storage: storage,
+  );
+});
 
 class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   final AuthRepository authRepository;
