@@ -161,7 +161,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
 
   SliverPadding _renderProducts({
     required RestaurantModel restaurant,
-    required List<RestaurantProductModel> products,
+    required List<BaseProductModel> products,
   }) {
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 16),

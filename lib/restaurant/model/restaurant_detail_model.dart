@@ -1,15 +1,15 @@
-import 'package:delivery_app_example/common/model/model_with_id.dart';
 import 'package:delivery_app_example/restaurant/model/restaurant_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../../common/utils/data_utils.dart';
+import '../../product/model/product_model.dart';
 
 part 'restaurant_detail_model.g.dart';
 
 @JsonSerializable()
 class RestaurantDetailModel extends RestaurantModel {
   final String detail;
-  final List<RestaurantProductModel> products;
+  final List<BaseProductModel> products;
 
   RestaurantDetailModel(
       {required super.id,
@@ -26,27 +26,4 @@ class RestaurantDetailModel extends RestaurantModel {
 
   factory RestaurantDetailModel.fromJson(Map<String, dynamic> json) =>
       _$RestaurantDetailModelFromJson(json);
-}
-
-@JsonSerializable()
-class RestaurantProductModel implements IModelWithId {
-  @override
-  final String id;
-  final String name;
-  @JsonKey(fromJson: DataUtils.pathToUrl)
-  final String imgUrl;
-  final String detail;
-  final int price;
-
-  RestaurantProductModel(
-      {required this.id,
-      required this.name,
-      required this.imgUrl,
-      required this.detail,
-      required this.price});
-
-  factory RestaurantProductModel.fromJson(Map<String, dynamic> json) =>
-      _$RestaurantProductModelFromJson(json);
-
-  Map<String, dynamic> toJson() => _$RestaurantProductModelToJson(this);
 }

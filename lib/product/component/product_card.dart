@@ -1,5 +1,4 @@
 import 'package:delivery_app_example/common/const/colors.dart';
-import 'package:delivery_app_example/restaurant/model/restaurant_detail_model.dart';
 import 'package:delivery_app_example/user/provider/basket_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,7 +47,7 @@ class ProductCard extends ConsumerWidget {
   }
 
   factory ProductCard.fromRestaurantProductModel({
-    required RestaurantProductModel model,
+    required BaseProductModel model,
     VoidCallback? onSubtract,
     VoidCallback? onAdd,
   }) {
