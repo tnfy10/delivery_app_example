@@ -1,6 +1,6 @@
 import 'package:delivery_app_example/common/model/pagination_params.dart';
 import 'package:delivery_app_example/common/repository/base_pagination_repository.dart';
-import 'package:delivery_app_example/product/model/product_model.dart';
+import 'package:delivery_app_example/product/model/product_and_restaurant_model.dart';
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/http.dart';
@@ -20,13 +20,13 @@ final productRepositoryProvider = Provider<ProductRepository>(
 );
 
 @RestApi()
-abstract class ProductRepository implements IBasePaginationRepository<ProductModel> {
+abstract class ProductRepository implements IBasePaginationRepository<ProductAndRestaurantModel> {
   factory ProductRepository(Dio dio, {String baseUrl}) = _ProductRepository;
 
   @override
   @GET('/')
   @Headers({'accessToken': 'true'})
-  Future<CursorPagination<ProductModel>> paginate({
+  Future<CursorPagination<ProductAndRestaurantModel>> paginate({
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
 }

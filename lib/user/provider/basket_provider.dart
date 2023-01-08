@@ -1,4 +1,4 @@
-import 'package:delivery_app_example/product/model/product_model.dart';
+import 'package:delivery_app_example/product/model/product_and_restaurant_model.dart';
 import 'package:delivery_app_example/user/model/basket_item_model.dart';
 import 'package:delivery_app_example/user/model/patch_basket_body.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,7 +37,7 @@ class BasketProvider extends StateNotifier<List<BasketItemModel>> {
   }
 
   Future<void> addToBasket({
-    required ProductModel product,
+    required ProductAndRestaurantModel product,
   }) async {
     // 요청을 먼저 보내고
     // 응답이 오면
@@ -76,7 +76,7 @@ class BasketProvider extends StateNotifier<List<BasketItemModel>> {
   }
 
   Future<void> removeFromBasket({
-    required ProductModel product,
+    required ProductAndRestaurantModel product,
     // true면 count와 관계없이 아예 삭제한다.
     bool isDelete = false,
   }) async {

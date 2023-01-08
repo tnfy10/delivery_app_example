@@ -3,7 +3,7 @@ import 'package:delivery_app_example/user/provider/basket_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../model/product_model.dart';
+import '../../common/model/base_product_model.dart';
 
 class ProductCard extends ConsumerWidget {
   final Image image;

@@ -3,7 +3,7 @@ import 'package:delivery_app_example/common/const/colors.dart';
 import 'package:delivery_app_example/common/layout/default_layout.dart';
 import 'package:delivery_app_example/common/model/cursor_pagination_model.dart';
 import 'package:delivery_app_example/product/component/product_card.dart';
-import 'package:delivery_app_example/product/model/product_model.dart';
+import 'package:delivery_app_example/product/model/product_and_restaurant_model.dart';
 import 'package:delivery_app_example/restaurant/component/restaurant_card.dart';
 import 'package:delivery_app_example/restaurant/model/restaurant_detail_model.dart';
 import 'package:delivery_app_example/restaurant/provider/restaurant_provider.dart';
@@ -14,6 +14,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:skeletons/skeletons.dart';
 
+import '../../common/model/base_product_model.dart';
 import '../../common/utils/pagination_utils.dart';
 import '../../rating/component/rating_card.dart';
 import '../../rating/model/rating_model.dart';
@@ -171,7 +172,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
         return InkWell(
           onTap: () {
             ref.read(basketProvider.notifier).addToBasket(
-                  product: ProductModel(
+                  product: ProductAndRestaurantModel(
                     id: model.id,
                     name: model.name,
                     detail: model.detail,

@@ -19,7 +19,7 @@ class _ProductRepository implements ProductRepository {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<ProductModel>> paginate(
+  Future<CursorPagination<ProductAndRestaurantModel>> paginate(
       {paginationParams = const PaginationParams()}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -29,7 +29,7 @@ class _ProductRepository implements ProductRepository {
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CursorPagination<ProductModel>>(Options(
+        _setStreamType<CursorPagination<ProductAndRestaurantModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -41,9 +41,10 @@ class _ProductRepository implements ProductRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CursorPagination<ProductModel>.fromJson(
+    final value = CursorPagination<ProductAndRestaurantModel>.fromJson(
       _result.data!,
-      (json) => ProductModel.fromJson(json as Map<String, dynamic>),
+      (json) =>
+          ProductAndRestaurantModel.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

@@ -5,16 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../component/product_card.dart';
-import '../model/product_model.dart';
+import '../model/product_and_restaurant_model.dart';
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return PaginationListView<ProductModel>(
+    return PaginationListView<ProductAndRestaurantModel>(
         provider: productProvider,
-        itemBuilder: <ProductModel>(_, index, model) {
+        itemBuilder: <ProductAndRestaurantModel>(_, index, model) {
           return GestureDetector(
             onTap: () {
               context.goNamed(
