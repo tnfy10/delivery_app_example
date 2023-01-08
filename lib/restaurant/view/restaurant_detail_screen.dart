@@ -17,7 +17,7 @@ import 'package:skeletons/skeletons.dart';
 import '../../common/utils/pagination_utils.dart';
 import '../../rating/component/rating_card.dart';
 import '../../rating/model/rating_model.dart';
-import '../../user/view/basket_screen.dart';
+import 'basket_screen.dart';
 import '../model/restaurant_model.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
