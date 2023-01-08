@@ -74,7 +74,7 @@ class CustomInterceptor extends Interceptor {
     final isStatus401 = err.response?.statusCode == HttpStatus.unauthorized;
     final isPathRefresh = err.requestOptions.path == '/auth/token';
 
-    if (isStatus401 && isPathRefresh) {
+    if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
 
       try {
