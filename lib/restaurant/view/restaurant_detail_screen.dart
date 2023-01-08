@@ -183,7 +183,7 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
           },
           child: Padding(
             padding: const EdgeInsets.only(top: 16),
-            child: ProductCard.fromRestaurantProductModel(model: model),
+            child: ProductCard.fromBaseProductModel(model: model),
           ),
         );
       })),

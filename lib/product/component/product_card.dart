@@ -25,28 +25,7 @@ class ProductCard extends ConsumerWidget {
     this.onAdd,
   }) : super(key: key);
 
-  factory ProductCard.fromProductModel({
-    required ProductModel model,
-    VoidCallback? onSubtract,
-    VoidCallback? onAdd,
-  }) {
-    return ProductCard(
-      id: model.id,
-      image: Image.network(
-        model.imgUrl,
-        width: 110,
-        height: 110,
-        fit: BoxFit.cover,
-      ),
-      name: model.name,
-      detail: model.detail,
-      price: model.price,
-      onSubtract: onSubtract,
-      onAdd: onAdd,
-    );
-  }
-
-  factory ProductCard.fromRestaurantProductModel({
+  factory ProductCard.fromBaseProductModel({
     required BaseProductModel model,
     VoidCallback? onSubtract,
     VoidCallback? onAdd,

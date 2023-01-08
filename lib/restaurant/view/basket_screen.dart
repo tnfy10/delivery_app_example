@@ -46,7 +46,7 @@ class BasketScreen extends ConsumerWidget {
                   itemBuilder: (_, index) {
                     final model = basket[index];
 
-                    return ProductCard.fromProductModel(
+                    return ProductCard.fromBaseProductModel(
                       model: model.product,
                       onSubtract: () {
                         ref.read(basketProvider.notifier).removeFromBasket(

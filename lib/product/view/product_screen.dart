@@ -24,7 +24,7 @@ class ProductScreen extends StatelessWidget {
                 },
               );
             },
-            child: ProductCard.fromProductModel(
+            child: ProductCard.fromBaseProductModel(
               model: model,
             ),
           );
