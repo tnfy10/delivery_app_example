@@ -11,11 +11,13 @@ import 'package:delivery_app_example/restaurant/provider/restaurant_rating_provi
 import 'package:delivery_app_example/user/provider/basket_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../../common/utils/pagination_utils.dart';
 import '../../rating/component/rating_card.dart';
 import '../../rating/model/rating_model.dart';
+import '../../user/view/basket_screen.dart';
 import '../model/restaurant_model.dart';
 
 class RestaurantDetailScreen extends ConsumerStatefulWidget {
@@ -65,7 +67,9 @@ class _RestaurantDetailScreenState extends ConsumerState<RestaurantDetailScreen>
     return DefaultLayout(
         title: '불타는 떡볶이',
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            context.pushNamed(BasketScreen.routeName);
+          },
           backgroundColor: primaryColor,
           child: Badge(
             showBadge: basket.isNotEmpty,
